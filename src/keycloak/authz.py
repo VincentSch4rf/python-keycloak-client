@@ -10,7 +10,7 @@ except ImportError:
 from keycloak.mixins import WellKnownMixin
 from keycloak.exceptions import KeycloakClientError
 
-PATH_ENTITLEMENT = "auth/realms/{}/authz/entitlement/{}"
+PATH_ENTITLEMENT = "auth/realms/{}/protocol/openid-connect/token"
 
 PATH_WELL_KNOWN = "auth/realms/{}/.well-known/uma2-configuration"
 
@@ -51,7 +51,7 @@ class KeycloakAuthz(WellKnownMixin, object):
         """
         headers = {"Authorization": "Bearer %s" % token}
         url = self._realm.client.get_full_url(
-            PATH_ENTITLEMENT.format(self._realm.realm_name, self._client_id)
+            PATH_ENTITLEMENT.format(self._realm.realm_name)
         )
         return self._realm.client.get(url, headers=headers)
 

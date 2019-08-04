@@ -56,8 +56,6 @@ class KeycloakAuthz(WellKnownMixin, object):
         data = [
             ('grant_type', 'urn:ietf:params:oauth:grant-type:uma-ticket'),
             ('audience', self._client_id),
-            ('response_include_resource_name', True),
-            ('response_mode', 'permissions'),
         ]
         return self._realm.client.post(url, headers=headers, data=urlencode(data))
 

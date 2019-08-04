@@ -49,7 +49,7 @@ class KeycloakAuthz(WellKnownMixin, object):
 
         :rtype: dict
         """
-        headers = {"Authorization": "Bearer %s" % token}
+        headers = {"Authorization": "Bearer %s" % token, "Content-Type": "application/x-www-form-urlencoded"}
         url = self._realm.client.get_full_url(
             PATH_ENTITLEMENT.format(self._realm.realm_name)
         )

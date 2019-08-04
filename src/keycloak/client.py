@@ -11,6 +11,8 @@ except ImportError:
 
 import requests
 
+logger = logging.getLogger(__name__)
+
 
 class KeycloakClient(object):
     _server_url = None
@@ -59,9 +61,11 @@ class KeycloakClient(object):
         return urljoin(server_url or self._server_url, path)
 
     def post(self, url, data, headers=None, **kwargs):
-        return self._handle_response(
-            self.session.post(url, headers=headers or {}, params=kwargs,
+        post = self.session.post(url, headers=headers or {}, params=kwargs,
                               data=data)
+        logger.error(post)
+        return self._handle_response(
+            post
         )
 
     def put(self, url, data, headers=None, **kwargs):

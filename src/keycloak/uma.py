@@ -23,7 +23,7 @@ class KeycloakUMA(WellKnownMixin, object):
     def get_path_well_known(self):
         return PATH_WELL_KNOWN
 
-    def resource_set_create(self, token, name, **kwargs):
+    def resource_set_create(self, token, name, server_url, internal_url, **kwargs):
         """
         Create a resource set.
 
@@ -41,8 +41,12 @@ class KeycloakUMA(WellKnownMixin, object):
         :param str owner: (optional)
         :rtype: str
         """
+        url = self.well_known['resource_registration_endpoint']
+        if internal_url:
+            url.replace(server_url, internal_url)
+
         return self._realm.client.post(
-            self.well_known['resource_registration_endpoint'],
+            url,
             data=self._get_data(name=name, **kwargs),
             headers=self.get_headers(token)
         )

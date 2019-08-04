@@ -124,7 +124,7 @@ class KeycloakUMA(WellKnownMixin, object):
             **kwargs
         )
 
-    def resource_create_ticket(self, token, id, scopes, **kwargs):
+    def resource_create_ticket(self, token, id, server_url, internal_url, scopes, **kwargs):
         """
         Create a ticket form permission to resource.
 
@@ -136,9 +136,12 @@ class KeycloakUMA(WellKnownMixin, object):
         :param dict claims: (optional)
         :rtype: dict
         """
+        url = self.well_known['permission_endpoint']
+        if internal_url:
+            url = url.replace(server_url, internal_url)
         data = dict(resource_id=id, resource_scopes=scopes, **kwargs)
         return self._realm.client.post(
-            self.well_known['permission_endpoint'],
+            url,
             data=self._dumps([data]),
             headers=self.get_headers(token)
         )

@@ -43,7 +43,7 @@ class KeycloakUMA(WellKnownMixin, object):
         """
         url = self.well_known['resource_registration_endpoint']
         if internal_url:
-            url.replace(server_url, internal_url)
+            url = url.replace(server_url, internal_url)
 
         return self._realm.client.post(
             url,

@@ -63,7 +63,7 @@ class KeycloakClient(object):
     def post(self, url, data, headers=None, **kwargs):
         post = self.session.post(url, headers=headers or {}, params=kwargs,
                               data=data)
-        logger.error(post)
+        logger.error(post.content)
         return self._handle_response(
             post
         )

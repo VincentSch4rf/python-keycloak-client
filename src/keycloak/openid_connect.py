@@ -1,4 +1,5 @@
 from keycloak.mixins import WellKnownMixin
+from django.conf import settings
 
 try:
     from urllib.parse import urlencode  # noqa: F041
@@ -31,7 +32,10 @@ class KeycloakOpenidConnect(WellKnownMixin):
         return PATH_WELL_KNOWN
 
     def get_url(self, name):
-        return self.well_known[name]
+        url = self.well_known[name]
+        if settings.KEYCLOAK_INTERNAL_URL:
+            url = url.replace(settings.KEYCLOAK_SERVER_URL, settings.KEYCLOAK_INTERNAL_URL)
+        return url
 
     def decode_token(self, token, key, algorithms=None, **kwargs):
         """
